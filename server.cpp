@@ -8,8 +8,11 @@
 #include <string.h>
 #include <sys/types.h>
 #include <time.h> 
+#include <iostream>
+#include <string>
 
 int main(int argc, char *argv[]) {
+    char recvBuff[1024];
     int listenfd = 0, connfd = 0;
     struct sockaddr_in serv_addr;
 
@@ -30,11 +33,16 @@ int main(int argc, char *argv[]) {
 
     connfd = accept(listenfd, (struct sockaddr*)NULL, NULL);
 
-    while(1){                                                                                                                                                                        
+    while(1){
         ticks = time(NULL);
         snprintf(sendBuff, sizeof(sendBuff), "%.24s\r\n", ctime(&ticks));
         write(connfd, sendBuff, strlen(sendBuff));
-        sleep(2);
+        
+        int n = read(connfd, recvBuff, 255);
+        if (n > 0)
+            std::cout << std::string(recvBuff) << "\n";
+
+        sleep(1);        
     }
 
     close(connfd);

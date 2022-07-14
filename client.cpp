@@ -44,6 +44,7 @@ int main(int argc, char *argv[]) {
         {
             recvBuff[n] = 0;
             printf("%s", recvBuff);
+            write(sockfd, "received", 9);
         }
     }
 
