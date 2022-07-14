@@ -28,14 +28,14 @@ int main(int argc, char *argv[]) {
 
     listen(listenfd, 10);
 
-    while(1) {
-        connfd = accept(listenfd, (struct sockaddr*)NULL, NULL);
-                                                                                                                                                                              
+    connfd = accept(listenfd, (struct sockaddr*)NULL, NULL);
+
+    while(1){                                                                                                                                                                        
         ticks = time(NULL);
         snprintf(sendBuff, sizeof(sendBuff), "%.24s\r\n", ctime(&ticks));
         write(connfd, sendBuff, strlen(sendBuff));
+        sleep(2);
+    }
 
-        close(connfd);
-        sleep(1);
-     }
+    close(connfd);
 }
